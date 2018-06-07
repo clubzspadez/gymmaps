@@ -46,6 +46,17 @@ app.get("/", (req, res) => {
   res.send("HEL");
 });
 
+/**
+ * !Use express routes
+ *
+ * * (server route, and js file)
+ *
+ * @param
+ */
+app.use("/api/users", users);
+app.use("/api/posts", posts);
+app.use("/api/profile", profile);
+
 const port = 5000;
 
 app.listen(port, console.log(`listening on port ${port}`));
