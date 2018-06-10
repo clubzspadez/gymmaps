@@ -7,6 +7,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
+const bodyParser = require("body-parser");
 
 /**
  * ! Grab data from mongoDatabase URI
@@ -31,12 +32,17 @@ const profile = require("./routes/api/profile");
 const posts = require("./routes/api/posts");
 
 /**
- * !Using Mongoose we connect to the mongoDB
+ * ! Setting up body parser as top-level middleware
  *
- * *  the connect method returns a promise
- *
- * @param
  */
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+/**
+ * !Using Mongoose we connect to the mongoDB
+ * *  the connect method returns a promise
+ */
+
 mongoose
   .connect(mongoData)
   .then(() => console.log("DB is connected"))
@@ -51,7 +57,7 @@ app.get("/", (req, res) => {
  *
  * * (server route, and js file)
  *
- * @param
+ * @public
  */
 app.use("/api/users", users);
 app.use("/api/posts", posts);
