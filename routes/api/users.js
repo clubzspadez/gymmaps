@@ -50,11 +50,16 @@ router.post("/register", (req, res) => {
           password: req.body.password
         });
 
+        // ! Asynchronous Version 
         //* Generate bcrypt hash for password
         //* genSalt(rounds, [optional]minor, [optional]cb);
         //? https://github.com/kelektiv/node.bcrypt.js
 
-        bcrypt.genSalt(rounds);
+        bcrypt.hash(newUser.password, rounds, (err, hash) => {
+          if(err) throw err;
+          newUser.password = hash;
+          newUser.save().then.().
+        });
       }
     })
     .catch();
