@@ -9,6 +9,9 @@ const mongoose = require("mongoose");
 const app = express();
 const bodyParser = require("body-parser");
 
+//* Port
+const port = 5000;
+
 /**
  * ! Grab data from mongoDatabase URI
  *
@@ -62,7 +65,5 @@ app.get("/", (req, res) => {
 app.use("/api/users", users);
 app.use("/api/posts", posts);
 app.use("/api/profile", profile);
-
-const port = 5000;
 
 app.listen(port, console.log(`listening on port ${port}`));
