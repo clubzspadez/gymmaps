@@ -3,6 +3,8 @@ const express = require("express");
 const router = express.Router();
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const secret = require("../../config/keys");
 
 /**
  * !Import User Model
@@ -75,4 +77,53 @@ router.post("/register", (req, res) => {
     .catch();
 });
 
+/**
+ * ! GET API /login
+ *
+ * * Login user /return JWT toekn
+ * * or details
+ *
+ * @public
+ */
+
+router.post("/login", (req, res) => {
+  //grab email from body
+  //grab password from body
+  const email = req.body.email;
+  const password = req.body.password;
+
+  // Find user by email
+  //User object calls findOne method which takes an object of the appropriate properties for that User model
+  // the findOne method returns a promise
+  User.findOne({ email: email }).then(user => {
+    //! verify if the user is not returned
+    if (!user) {
+      //return a response with a 404 status and send a json response with an error for the email
+      return res.status(404).json({ email: "Email not found" });
+    }
+
+    //! Check password for with bcrypt.compare method
+    //* compare parsed password to return user.password
+    //* compare() returns a promise
+    bcrypt.compare(password, user.password).then(hash => {
+      //* load hash from your password DB
+      if (hash) {
+        //User Matched
+
+        const payload = { id: user.id, name: user.name, avatar: user.avatar };
+
+        //Sign Token
+
+        jwt.sign(payload, secret.secret, { expiresIn: 3600 }, (err, token) => {
+          res.json({
+            success: true,
+            token: "Bearer " + token
+          });
+        });
+      } else {
+        res.status(404).json({ password: "Password is incorrect" });
+      }
+    });
+  });
+});
 module.exports = router;
