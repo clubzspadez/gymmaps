@@ -4,7 +4,8 @@ const router = express.Router();
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const secret = require("../../config/keys");
+const key = require("../../config/keys");
+const passport = require("passport");
 
 /**
  * !Import User Model
@@ -108,13 +109,15 @@ router.post("/login", (req, res) => {
     bcrypt.compare(password, user.password).then(hash => {
       //* load hash from your password DB
       if (hash) {
-        //User Matched
-
+        //* Payload contains user info
         const payload = { id: user.id, name: user.name, avatar: user.avatar };
 
-        //Sign Token
+        //! Sign Token
+        //* jwt.sign(payload, secretOrPrivateKey, [options, callback])
+        //? https://github.com/auth0/node-jsonwebtoken
 
-        jwt.sign(payload, secret.secret, { expiresIn: 3600 }, (err, token) => {
+        jwt.sign(payload, key.secret, { expiresIn: "1h" }, (err, token) => {
+          //! Send json response with success, and token
           res.json({
             success: true,
             token: "Bearer " + token
@@ -126,4 +129,21 @@ router.post("/login", (req, res) => {
     });
   });
 });
+
+/**
+ * !Authenticate Requests/ GET
+ *
+ * * passport.authenticate with JWT as strategy
+ * * file path ('api/users/current')
+ * * pass in path, passport.auth(with strat), and callback
+ */
+router.get(
+  "/current",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    res.json({
+      message: "Success"
+    });
+  }
+);
 module.exports = router;

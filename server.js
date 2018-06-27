@@ -1,13 +1,12 @@
 /**
- *
  * !Module dependencies.
- * @param
  */
 
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const bodyParser = require("body-parser");
+const passport = require("passport");
 
 //* Port
 const port = 5000;
@@ -18,7 +17,7 @@ const port = 5000;
  * * require("./config/keys") returns  { mongURI: 'string'}
  * * monogData has mongoURI value which is a string
  *
- * @param
+ * @private
  */
 const mongoData = require("./config/keys").mongoURI;
 
@@ -51,9 +50,12 @@ mongoose
   .then(() => console.log("DB is connected"))
   .catch(err => console.log(err));
 
-app.get("/", (req, res) => {
-  res.send("HEL");
-});
+//! Passport middleware
+//* https://www.npmjs.com/package/passport
+app.use(passport.initialize());
+
+//! Passport Config
+require("./config/passport")(passport);
 
 /**
  * !Use express routes
