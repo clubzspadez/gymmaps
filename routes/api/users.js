@@ -7,6 +7,9 @@ const jwt = require("jsonwebtoken");
 const key = require("../../config/keys");
 const passport = require("passport");
 
+//! Validation for users/register
+const validateRegisterData = require("../../validation/register");
+
 /**
  * !Import User Model
  */
@@ -23,6 +26,13 @@ router.get("/test", (req, res) => res.json({ test: "this is working 3" }));
  */
 
 router.post("/register", (req, res) => {
+  //* Destructor errors, and isValid properties
+  const { errors, isValid } = validateRegisterData(req.body);
+
+  //* check if isValid is false
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
   // Check and find if the user registering has the email listed in the req.body
   // findOne takes an object
   User.findOne({ email: req.body.email })
