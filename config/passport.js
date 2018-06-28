@@ -23,8 +23,15 @@ module.exports = passport => {
 
     new JwtStrat(opts, (jwt_payload, done) => {
       let payload = jwt_payload;
+
+      //! Make sure to refresh/resend token in order to see payload print out
       console.log(payload);
-      User.findOne({ id: jwt_payload.id }, (err, user) => {});
+      User.findById(payload.id, (err, user) => {
+        if (user) {
+          return done(null, user);
+        }
+        return done(null, false);
+      });
     })
   );
 };
