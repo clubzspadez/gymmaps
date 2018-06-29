@@ -37,8 +37,9 @@ router.post("/register", (req, res) => {
   // findOne takes an object
   User.findOne({ email: req.body.email })
     .then(user => {
+      errors.email = "Email exists";
       if (user) {
-        return res.status(400).json({ email: "Email exists" });
+        return res.status(400).json(errors);
       } else {
         const rounds = 10;
 
