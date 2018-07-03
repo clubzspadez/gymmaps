@@ -26,7 +26,7 @@ router.get("/test", (req, res) => res.json({ test: "this is working 3" }));
  */
 
 router.post("/register", (req, res) => {
-  //* Destructor errors, and isValid properties
+  //* Destructor errors ={}, and isValid: true/false properties
   const { errors, isValid } = validateRegisterData(req.body);
 
   //* check if isValid is false
