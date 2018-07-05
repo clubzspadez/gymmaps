@@ -8,7 +8,8 @@ const key = require("../../config/keys");
 const passport = require("passport");
 
 //! Validation for users/register
-const validateRegisterData = require("../../validation/register");
+const validateRegisterInput = require("../../validation/register");
+const validateLoginInput = require("../../validation/login");
 
 /**
  * !Import User Model
@@ -26,8 +27,8 @@ router.get("/test", (req, res) => res.json({ test: "this is working 3" }));
  */
 
 router.post("/register", (req, res) => {
-  //* Destructor errors, and isValid properties
-  const { errors, isValid } = validateRegisterData(req.body);
+  //* Destructor errors ={}, and isValid: true/false properties
+  const { errors, isValid } = validateRegisterInput(req.body);
 
   //* check if isValid is false
   if (!isValid) {
@@ -104,6 +105,11 @@ router.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
+  const { errors, isValid } = validateLoginInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
   // Find user by email
   //User object calls findOne method which takes an object of the appropriate properties for that User model
   // the findOne method returns a promise
@@ -135,7 +141,8 @@ router.post("/login", (req, res) => {
           });
         });
       } else {
-        res.status(404).json({ password: "Password is incorrect" });
+        errors.password = "Password is incorrect.";
+        res.status(404).json(errors);
       }
     });
   });
