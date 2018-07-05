@@ -20,15 +20,22 @@ const Validation = function() {
 
 //* check if input value is empty methd
 //* takes value parameter checks if undefined, null, empty object
-Validation.prototype.ifValueEmpty = value =>
-  value === undefined ||
-  value === null ||
-  (typeof value === "object" && Object.keys(value).length === 0) ||
-  (typeof value === "string" && value.trim().length === 0);
+Validation.prototype.ifValueEmpty = function(value) {
+  return (
+    value === undefined ||
+    value === null ||
+    (typeof value === "object" && Object.keys(value).length === 0) ||
+    (typeof value === "string" && value.trim().length === 0)
+  );
+};
 
-//* Check user name method
-//* takes input and validates length
-Validation.prototype.checkName = function(input) {
+/**
+ * !Check input for Register Page
+ *
+ *
+ * @pub
+ */
+Validation.prototype.checkInputforRegistration = function(input) {
   // ! Set input values to empty strings to use validator.isEmpty method
   input.name = !this.ifValueEmpty(input.name) ? input.name : "";
   input.email = !this.ifValueEmpty(input.email) ? input.email : "";
@@ -39,43 +46,75 @@ Validation.prototype.checkName = function(input) {
     this.errors.name = "Name must be between 4 - 24 characters";
   }
 
-  return {
-    errors: this.errors,
-    isValid: this.ifValueEmpty(this.errors)
-  };
-
   if (validator.isEmpty(input.name)) {
     this.errors.name = "Name field is required";
   }
   if (validator.isEmpty(input.email)) {
-    errors.name = "Email field is required";
+    this.errors.name = "Email field is required";
   }
-  this.checkPassword(input.password, input.password2, "First");
+  if (!validator.isEmail(input.email)) {
+    this.errors.name = "Email is not valid";
+  }
+  this.checkPasswordForRegistration(input.password, input.password2, [
+    "First",
+    "Second"
+  ]);
+
+  return {
+    errors: this.errors,
+    isValid: this.ifValueEmpty(this.errors)
+  };
 };
 
-Validation.prototype.checkPassword = function(passWord, confirmWord, order) {
-  //? Lowercase
-  //? One uppercase letter
-  //? At least 1 number
-  //? minimum 8 characters
+Validation.prototype.checkPasswordForRegistration = function(
+  passWord,
+  confirmWord,
+  [order, order2]
+) {
   if (validator.isEmpty(passWord)) {
     return (this.errors.password = `${order} password field is required`);
   }
-  if (validator.isLength(passWord, { min: 6, max: 24 })) {
-    return (this.errors.password = `${order} password is required`);
+  if (!validator.isLength(passWord, { min: 6, max: 24 })) {
+    return (this.errors.password = `${order} password length is a minimum of 6 characters`);
+  }
+  if (validator.isEmpty(confirmWord)) {
+    return (this.errors.password2 = `${order2} password field is required`);
+  }
+
+  if (!validator.equals(passWord, confirmWord)) {
+    return (this.errors.password2 = "Passwords must match");
   }
 };
 
-Validation.prototype.checkPassword2 = function(pwd, order) {
-  //? Lowercase
-  //? One uppercase letter
-  //? At least 1 number
-  //? minimum 8 characters
-  if (validator.isEmpty(pwd)) {
-    return (errors.password2 = `${order} password field is required`);
+/**
+ * !Check input for login Page
+ *
+ *
+ * @pub
+ */
+Validation.prototype.checkInputForLogin = function(input) {
+  input.email = !this.ifValueEmpty(input.email) ? input.email : "";
+  input.password = !this.ifValueEmpty(input.password) ? input.password : "";
+
+  if (!validator.isEmail(input.email)) {
+    this.errors.name = "Email is not valid";
   }
-  if (validator.isLength(pwd, { min: 6, max: 24 })) {
-    return (errors.password2 = `${order} Password must at least be 6 characters long`);
+
+  if (validator.isEmpty(input.email)) {
+    this.errors.name = "Email field is required";
+  }
+
+  this.checkPasswordForLogin(input.password);
+
+  return {
+    errors: this.errors,
+    isValid: this.ifValueEmpty(this.errors)
+  };
+};
+
+Validation.prototype.checkPasswordForLogin = function(passWord) {
+  if (validator.isEmpty(passWord)) {
+    return (this.errors.password = `Password field is required`);
   }
 };
 
