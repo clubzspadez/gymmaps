@@ -11,7 +11,7 @@ const Schema = mongoose.Schema;
  * user, handle, company, website
  *
  */
-const ObjectId = mongoose.Schema.Types.ObjectId;
+const ObjectId = Schema.Types.ObjectId;
 
 const ProfileSchema = new Schema({
   user: {
@@ -23,8 +23,79 @@ const ProfileSchema = new Schema({
     required: true,
     max: 40
   },
-  company: {
-    type: String
+  experience: [
+    {
+      title: {
+        type: String,
+        required: true
+      },
+      company: {
+        type: String
+      },
+      location: {
+        type: String
+      },
+      from: {
+        type: Date,
+        required: true
+      },
+      to: {
+        type: Date
+      },
+      current: {
+        type: Boolean,
+        default: false
+      },
+      description: {
+        type: String
+      }
+    }
+  ],
+  education: [
+    {
+      school: {
+        type: String,
+        required: true
+      },
+      degree: {
+        type: String
+      },
+      fieldofstudy: {
+        type: String,
+        required: true
+      },
+      from: {
+        type: Date,
+        required: true
+      },
+      to: {
+        type: Date
+      },
+      current: {
+        type: Boolean,
+        default: false
+      },
+      description: {
+        type: String
+      }
+    }
+  ],
+  social: {
+    youtube: {
+      type: String
+    },
+    twitter: {
+      type: String
+    },
+    facebook: {
+      type: String
+    },
+    linkedin: {
+      type: String
+    },
+    insta: {
+      type: String
+    }
   },
   website: {
     type: String
@@ -40,5 +111,12 @@ const ProfileSchema = new Schema({
   skills: {
     type: [String],
     required: true
+  },
+  date: {
+    type: Date,
+    default: Date.now
   }
 });
+
+//Mongoose method 'model' allows us to pass in a name and Schema object
+module.exports = Profile = mongoose.model("profile", ProfileSchema);
