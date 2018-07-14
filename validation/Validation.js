@@ -11,7 +11,7 @@ const validator = require("validator");
 
 const Validation = function() {
   //* incase I may add methods inside the constructor
-  //* #note 'this' will
+  //* #note 'this' will react
   //* Prototype will enable us to easily define methods to all instances
   const self = this;
   //* store our errors
