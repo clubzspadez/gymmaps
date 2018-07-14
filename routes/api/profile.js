@@ -61,6 +61,19 @@ router.post(
     if (req.body.linkedin) profile.linkedin = req.body.linkedin;
     if (req.body.insta) profile.insta = req.body.insta;
     if (req.body.facebook) profile.facebook = req.body.facebook;
+
+    if (typeof req.body.skills !== "undefined") {
+      profile.skills = req.body.skills.split(",");
+    }
+
+    // ! Update profile with profiles objects for the user
+    Profile.findOne({ user: req.body.user }).then(profile => {
+      // ! If the profile exists update that profile
+      // * using findOneAndUpdate method
+      if (profile) {
+      } else {
+      }
+    });
   }
 );
 
