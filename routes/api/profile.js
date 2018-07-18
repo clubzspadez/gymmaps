@@ -89,7 +89,7 @@ router.post(
         });
       } else {
         // Create profile if one does not exist
-        // to do so validate the use/url handle
+        // to do so validate the user/url handle
         Profile.findOne({ handle: profileInfo.handle }).then(profile => {
           // if the handle exists return json error
           if (profile) {
