@@ -11,7 +11,7 @@ const validator = require("validator");
 
 const Validation = function() {
   //* incase I may add methods inside the constructor
-  //* #note 'this' will react
+  //* #note 'this' will react differently
   //* Prototype will enable us to easily define methods to all instances
   const self = this;
   //* store our errors
@@ -116,6 +116,70 @@ Validation.prototype.checkPasswordForLogin = function(passWord) {
   if (validator.isEmpty(passWord)) {
     return (this.errors.password = `Password field is required`);
   }
+};
+
+/**
+ * ! Profile validation
+ *
+ * * Validate handle, status, and skills
+ * ? May validate URL's for website if listed
+ *
+ */
+Validation.prototype.checkProfileInput = function({
+  handle,
+  status,
+  skills,
+  website,
+  insta,
+  linkedin,
+  facebook,
+  twitter,
+  youtube
+}) {
+  const social = [insta, linkedin, facebook, twitter, youtube];
+  handle = !this.ifValueEmpty(handle) ? handle : "";
+  status = !this.ifValueEmpty(status) ? status : "";
+  skills = !this.ifValueEmpty(skills) ? skills : "";
+
+  if (!validator.isLength(handle, { min: 2, max: 40 })) {
+    this.errors.handle = "Handle needs to be between 2 and 40 characters";
+  }
+
+  if (validator.isEmpty(handle)) {
+    this.errors.handle = "Handle field is required";
+  }
+
+  if (validator.isEmpty(status)) {
+    this.errors.status = "A status is a required";
+  }
+
+  if (validator.isEmpty(skills)) {
+    this.errors.skills = "A skill set is a required";
+  }
+
+  // check valid URL for website if listed
+  if (!this.ifValueEmpty(website)) {
+    if (!validator.isURL(website)) {
+      this.errors.website = "Not a valid URL";
+    }
+  }
+
+  this.checkSocialMediaLinks(social);
+
+  return {
+    errors,
+    isValid: isEmpty(errors)
+  };
+};
+
+Validation.prototype.checkSocialMediaLinks = function(socialMediaArray) {
+  socialMediaArray.forEach(mediaLink => {
+    if (!this.ifValueEmpty(mediaLink)) {
+      if (!validator.ismediaLink(mediaLink)) {
+        this.errors.mediaLink = "Not a valid URL";
+      }
+    }
+  });
 };
 
 module.exports = Validation;
