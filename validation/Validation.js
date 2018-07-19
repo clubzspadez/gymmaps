@@ -136,6 +136,7 @@ Validation.prototype.checkProfileInput = function({
   twitter,
   youtube
 }) {
+  const requiredFields = [handle, status, skills];
   const social = [insta, linkedin, facebook, twitter, youtube];
   handle = !this.ifValueEmpty(handle) ? handle : "";
   status = !this.ifValueEmpty(status) ? status : "";
@@ -145,17 +146,7 @@ Validation.prototype.checkProfileInput = function({
     this.errors.handle = "Handle needs to be between 2 and 40 characters";
   }
 
-  if (validator.isEmpty(handle)) {
-    this.errors.handle = "Handle field is required";
-  }
-
-  if (validator.isEmpty(status)) {
-    this.errors.status = "A status is a required";
-  }
-
-  if (validator.isEmpty(skills)) {
-    this.errors.skills = "A skill set is a required";
-  }
+  this.checkRequiredFields(requiredFields);
 
   // check valid URL for website if listed
   if (!this.ifValueEmpty(website)) {
@@ -167,15 +158,25 @@ Validation.prototype.checkProfileInput = function({
   this.checkSocialMediaLinks(social);
 
   return {
-    errors,
-    isValid: isEmpty(errors)
+    errors: this.errors,
+    isValid: this.ifValueEmpty(this.errors)
   };
 };
 
+Validation.prototype.checkRequiredFields = function(requiredFields) {
+  //requiredFields array is looped on from forEach, also allowing us to run a function on each item
+  requiredFields.forEach(field => {
+    if (validator.isEmpty(field)) {
+      this.errors.field = `${field} field is required`;
+    }
+  });
+};
+
 Validation.prototype.checkSocialMediaLinks = function(socialMediaArray) {
+  //social media array is looped on from forEach, also allowing us to run a function on each item
   socialMediaArray.forEach(mediaLink => {
     if (!this.ifValueEmpty(mediaLink)) {
-      if (!validator.ismediaLink(mediaLink)) {
+      if (!validator.isURL(mediaLink)) {
         this.errors.mediaLink = "Not a valid URL";
       }
     }

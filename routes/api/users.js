@@ -85,7 +85,7 @@ router.post("/register", (req, res) => {
         });
       }
     })
-    .catch();
+    .catch(err => res.json(err));
 });
 
 /**
