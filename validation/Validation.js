@@ -11,7 +11,7 @@ const validator = require("validator");
 
 const Validation = function() {
   //* incase I may add methods inside the constructor
-  //* #note 'this' will react
+  //* #note 'this' will react differently
   //* Prototype will enable us to easily define methods to all instances
   const self = this;
   //* store our errors
@@ -116,6 +116,71 @@ Validation.prototype.checkPasswordForLogin = function(passWord) {
   if (validator.isEmpty(passWord)) {
     return (this.errors.password = `Password field is required`);
   }
+};
+
+/**
+ * ! Profile validation
+ *
+ * * Validate handle, status, and skills
+ * ? May validate URL's for website if listed
+ *
+ */
+Validation.prototype.checkProfileInput = function({
+  handle,
+  status,
+  skills,
+  website,
+  insta,
+  linkedin,
+  facebook,
+  twitter,
+  youtube
+}) {
+  const requiredFields = [handle, status, skills];
+  const social = [insta, linkedin, facebook, twitter, youtube];
+  handle = !this.ifValueEmpty(handle) ? handle : "";
+  status = !this.ifValueEmpty(status) ? status : "";
+  skills = !this.ifValueEmpty(skills) ? skills : "";
+
+  if (!validator.isLength(handle, { min: 2, max: 40 })) {
+    this.errors.handle = "Handle needs to be between 2 and 40 characters";
+  }
+
+  this.checkRequiredFields(requiredFields);
+
+  // check valid URL for website if listed
+  if (!this.ifValueEmpty(website)) {
+    if (!validator.isURL(website)) {
+      this.errors.website = "Not a valid URL";
+    }
+  }
+
+  this.checkSocialMediaLinks(social);
+
+  return {
+    errors: this.errors,
+    isValid: this.ifValueEmpty(this.errors)
+  };
+};
+
+Validation.prototype.checkRequiredFields = function(requiredFields) {
+  //requiredFields array is looped on from forEach, also allowing us to run a function on each item
+  requiredFields.forEach(field => {
+    if (validator.isEmpty(field)) {
+      this.errors.field = `${field} field is required`;
+    }
+  });
+};
+
+Validation.prototype.checkSocialMediaLinks = function(socialMediaArray) {
+  //social media array is looped on from forEach, also allowing us to run a function on each item
+  socialMediaArray.forEach(mediaLink => {
+    if (!this.ifValueEmpty(mediaLink)) {
+      if (!validator.isURL(mediaLink)) {
+        this.errors.mediaLink = "Not a valid URL";
+      }
+    }
+  });
 };
 
 module.exports = Validation;
