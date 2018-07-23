@@ -49,8 +49,6 @@ router.get(
 router.get("/user/:user_id", (req, res) => {
   const errors = {};
 
-  // authenticate user profile from jwt and validate if the current profile has the correct id
-  // if not update errors object with error message and return that json with a 404
   Profile.findOne({ user: req.params.user_id })
     .populate("user", ["name", "avatar"])
     .then(userProfile => {
@@ -73,8 +71,6 @@ router.get("/user/:user_id", (req, res) => {
 router.get("/handle/:handle", (req, res) => {
   const errors = {};
 
-  // authenticate user profile from jwt and validate if the current profile has the correct id
-  // if not update errors object with error message and return that json with a 404
   Profile.findOne({ handle: req.params.handle })
     .populate("user", ["name", "avatar"])
     .then(userProfile => {
@@ -84,7 +80,29 @@ router.get("/handle/:handle", (req, res) => {
       }
       res.json(userProfile);
     })
-    .catch(err => res.json({ profile: "There is no handle for this user" }));
+    .catch(err => res.json(err));
+});
+
+/**
+ * ! GET User api/profile/all
+ * * req.params will use what the :parameter if assigned
+ * * get all user profiles
+ *
+ * @public
+ */
+router.get("/all", (req, res) => {
+  const errors = {};
+
+  Profile.find()
+    .populate("user", ["name", "avatar"])
+    .then(userProfiles => {
+      if (!userProfiles) {
+        errors.invalidProfile = "The are no user profiles";
+        return res.status(404).json(errors);
+      }
+      res.json(userProfiles);
+    })
+    .catch(err => res.json(err));
 });
 
 /**
@@ -163,6 +181,37 @@ router.post(
           })
           .catch(err => res.json(err));
       }
+    });
+  }
+);
+
+/**
+ * ! Post User api/profile/experience
+ * * post user experience object from requested fields
+ * *
+ *
+ * @private
+ */
+
+router.post(
+  "/experience",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      // create experience object and necessary fields
+      const currentExperience = {
+        title: req.body.title,
+        company: req.body.company,
+        location: req.body.location,
+        from: req.body.from,
+        to: req.body.to,
+        current: req.body.current,
+        description: req.body.description
+      };
+
+      // add to the array
+      profile.experience.unshift(currentExperience);
+      profile.save().then(profile => res.json(profile));
     });
   }
 );

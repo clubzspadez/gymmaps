@@ -2,7 +2,6 @@
  * !Validations through validator.js methods
  *
  * * https://github.com/chriso/validator.js
- * * Export validateRegisterData Input for register.js
  * ? Params for function input/data
  *
  * */
@@ -35,30 +34,32 @@ Validation.prototype.ifValueEmpty = function(value) {
  *
  * @pub
  */
-Validation.prototype.checkInputforRegistration = function(input) {
+Validation.prototype.checkInputforRegistration = function({
+  name,
+  email,
+  password,
+  password2
+}) {
   // ! Set input values to empty strings to use validator.isEmpty method
-  input.name = !this.ifValueEmpty(input.name) ? input.name : "";
-  input.email = !this.ifValueEmpty(input.email) ? input.email : "";
-  input.password = !this.ifValueEmpty(input.password) ? input.password : "";
-  input.password2 = !this.ifValueEmpty(input.password2) ? input.password2 : "";
+  name = !this.ifValueEmpty(name) ? name : "";
+  email = !this.ifValueEmpty(email) ? email : "";
+  password = !this.ifValueEmpty(password) ? password : "";
+  password2 = !this.ifValueEmpty(password2) ? password2 : "";
 
-  if (!validator.isLength(input.name, { min: 4, max: 24 })) {
+  if (!validator.isLength(name, { min: 4, max: 24 })) {
     this.errors.name = "Name must be between 4 - 24 characters";
   }
 
-  if (validator.isEmpty(input.name)) {
+  if (validator.isEmpty(name)) {
     this.errors.name = "Name field is required";
   }
-  if (validator.isEmpty(input.email)) {
-    this.errors.name = "Email field is required";
+  if (validator.isEmpty(email)) {
+    this.errors.email = "Email field is required";
   }
-  if (!validator.isEmail(input.email)) {
-    this.errors.name = "Email is not valid";
+  if (!validator.isEmail(email)) {
+    this.errors.email = "Email is not valid";
   }
-  this.checkPasswordForRegistration(input.password, input.password2, [
-    "First",
-    "Second"
-  ]);
+  this.checkPasswordForRegistration(password, password2, ["First", "Second"]);
 
   return {
     errors: this.errors,
@@ -90,21 +91,21 @@ Validation.prototype.checkPasswordForRegistration = function(
  * !Check input for login Page
  *
  *
- * @pub
+ *
  */
-Validation.prototype.checkInputForLogin = function(input) {
-  input.email = !this.ifValueEmpty(input.email) ? input.email : "";
-  input.password = !this.ifValueEmpty(input.password) ? input.password : "";
+Validation.prototype.checkInputForLogin = function({ email, password }) {
+  email = !this.ifValueEmpty(email) ? email : "";
+  password = !this.ifValueEmpty(password) ? password : "";
 
-  if (!validator.isEmail(input.email)) {
+  if (!validator.isEmail(email)) {
     this.errors.name = "Email is not valid";
   }
 
-  if (validator.isEmpty(input.email)) {
+  if (validator.isEmpty(email)) {
     this.errors.name = "Email field is required";
   }
 
-  this.checkPasswordForLogin(input.password);
+  this.checkPasswordForLogin(password);
 
   return {
     errors: this.errors,
@@ -164,20 +165,24 @@ Validation.prototype.checkProfileInput = function({
 };
 
 Validation.prototype.checkRequiredFields = function(requiredFields) {
+  const arrayFields = ["handle", "status", "skills"];
   //requiredFields array is looped on from forEach, also allowing us to run a function on each item
-  requiredFields.forEach(field => {
+  requiredFields.forEach((field, index) => {
     if (validator.isEmpty(field)) {
-      this.errors.field = `${field} field is required`;
+      this.errors.arrayFields[index] = `${
+        arrayFields[index]
+      } field is required`;
     }
   });
 };
 
 Validation.prototype.checkSocialMediaLinks = function(socialMediaArray) {
+  const socialMedia = ["insta", "linkedin", "facebook", "twitter", "youtube"];
   //social media array is looped on from forEach, also allowing us to run a function on each item
-  socialMediaArray.forEach(mediaLink => {
+  socialMediaArray.forEach((mediaLink, index) => {
     if (!this.ifValueEmpty(mediaLink)) {
       if (!validator.isURL(mediaLink)) {
-        this.errors.mediaLink = "Not a valid URL";
+        this.errors.socialMedia[index] = "Not a valid URL";
       }
     }
   });

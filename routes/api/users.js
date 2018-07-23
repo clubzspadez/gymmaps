@@ -152,6 +152,8 @@ router.post("/login", (req, res) => {
  * * passport.authenticate with JWT as strategy
  * * file path ('api/users/current')
  * * pass in path, passport.auth(with strat), and callback
+ *
+ * @private
  */
 router.get(
   "/current",
