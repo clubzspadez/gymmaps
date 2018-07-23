@@ -104,6 +104,7 @@ router.get("/all", (req, res) => {
     })
     .catch(err => res.json(err));
 });
+
 /**
  * ! POST User api/profile
  * * Create user profile
@@ -180,6 +181,37 @@ router.post(
           })
           .catch(err => res.json(err));
       }
+    });
+  }
+);
+
+/**
+ * ! Post User api/profile/experience
+ * * post user experience object from requested fields
+ * *
+ *
+ * @private
+ */
+
+router.post(
+  "/experience",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      // create experience object and necessary fields
+      const currentExperience = {
+        title: req.body.title,
+        company: req.body.company,
+        location: req.body.location,
+        from: req.body.from,
+        to: req.body.to,
+        current: req.body.current,
+        description: req.body.description
+      };
+
+      // add to the array
+      profile.experience.unshift(currentExperience);
+      profile.save().then(profile => res.json(profile));
     });
   }
 );
