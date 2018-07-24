@@ -102,7 +102,7 @@ Validation.prototype.checkInputForLogin = function({ email, password }) {
   }
 
   if (validator.isEmpty(email)) {
-    this.errors.name = "Email field is required";
+    this.errors.email = "Email field is required";
   }
 
   this.checkPasswordForLogin(password);
@@ -165,11 +165,11 @@ Validation.prototype.checkProfileInput = function({
 };
 
 Validation.prototype.checkRequiredFields = function(requiredFields) {
-  const arrayFields = ["handle", "status", "skills"];
+  const arrayFields = ["Handle", "Status", "Skills"];
   //requiredFields array is looped on from forEach, also allowing us to run a function on each item
   requiredFields.forEach((field, index) => {
     if (validator.isEmpty(field)) {
-      this.errors.arrayFields[index] = `${
+      this.errors[arrayFields[index]] = `${
         arrayFields[index]
       } field is required`;
     }
@@ -179,10 +179,10 @@ Validation.prototype.checkRequiredFields = function(requiredFields) {
 Validation.prototype.checkSocialMediaLinks = function(socialMediaArray) {
   const socialMedia = ["insta", "linkedin", "facebook", "twitter", "youtube"];
   //social media array is looped on from forEach, also allowing us to run a function on each item
-  socialMediaArray.forEach((mediaLink, index) => {
+  socialMediaArray.map((mediaLink, index) => {
     if (!this.ifValueEmpty(mediaLink)) {
       if (!validator.isURL(mediaLink)) {
-        this.errors.socialMedia[index] = "Not a valid URL";
+        this.errors[socialMedia[index]] = "Not a valid URL";
       }
     }
   });
