@@ -147,8 +147,6 @@ Validation.prototype.checkProfileInput = function({
     this.errors.handle = "Handle needs to be between 2 and 40 characters";
   }
 
-  this.checkRequiredFields(requiredFields);
-
   // check valid URL for website if listed
   if (!this.ifValueEmpty(website)) {
     if (!validator.isURL(website)) {
@@ -156,36 +154,47 @@ Validation.prototype.checkProfileInput = function({
     }
   }
 
-  this.checkSocialMediaLinks(social);
+  if (validator.isEmpty(handle)) {
+    this.errors.handle = `Handle field is required`;
+  }
+  if (validator.isEmpty(status)) {
+    this.errors.handle = `Status field is required`;
+  }
+
+  if (validator.isEmpty(skills)) {
+    this.errors.handle = `Skills field is required`;
+  }
+
+  if (!this.ifValueEmpty(insta)) {
+    if (!validator.isURL(insta)) {
+      this.errors.insta = "Not a valid URL";
+    }
+  }
+  if (!this.ifValueEmpty(linkedin)) {
+    if (!validator.isURL(linkedin)) {
+      this.errors.linkedin = "Not a valid URL";
+    }
+  }
+  if (!this.ifValueEmpty(facebook)) {
+    if (!validator.isURL(facebook)) {
+      this.errors.facebook = "Not a valid URL";
+    }
+  }
+  if (!this.ifValueEmpty(twitter)) {
+    if (!validator.isURL(twitter)) {
+      this.errors.twitter = "Not a valid URL";
+    }
+  }
+  if (!this.ifValueEmpty(youtube)) {
+    if (!validator.isURL(youtube)) {
+      this.errors.youtube = "Not a valid URL";
+    }
+  }
 
   return {
     errors: this.errors,
     isValid: this.ifValueEmpty(this.errors)
   };
-};
-
-Validation.prototype.checkRequiredFields = function(requiredFields) {
-  const arrayFields = ["Handle", "Status", "Skills"];
-  //requiredFields array is looped on from forEach, also allowing us to run a function on each item
-  requiredFields.forEach((field, index) => {
-    if (validator.isEmpty(field)) {
-      this.errors[arrayFields[index]] = `${
-        arrayFields[index]
-      } field is required`;
-    }
-  });
-};
-
-Validation.prototype.checkSocialMediaLinks = function(socialMediaArray) {
-  const socialMedia = ["insta", "linkedin", "facebook", "twitter", "youtube"];
-  //social media array is looped on from forEach, also allowing us to run a function on each item
-  socialMediaArray.map((mediaLink, index) => {
-    if (!this.ifValueEmpty(mediaLink)) {
-      if (!validator.isURL(mediaLink)) {
-        this.errors[socialMedia[index]] = "Not a valid URL";
-      }
-    }
-  });
 };
 
 module.exports = Validation;
