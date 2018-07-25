@@ -126,7 +126,6 @@ router.post(
     profileInfo.user = req.user.id;
     if (req.body.handle) profileInfo.handle = req.body.handle;
     if (req.body.company) profileInfo.company = req.body.company;
-    if (req.body.experience) profileInfo.experience = req.body.experience;
     if (req.body.website) profileInfo.website = req.body.website;
     if (req.body.bio) profileInfo.bio = req.body.bio;
     if (req.body.location) profileInfo.location = req.body.location;
@@ -216,4 +215,34 @@ router.post(
   }
 );
 
+/**
+ * ! Post User api/profile/education
+ * * post user education object from requested fields
+ * *
+ *
+ * @private
+ */
+
+router.post(
+  "/education",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      // create experience object and necessary fields
+      const educationObj = {
+        school: req.body.school,
+        degree: req.body.degree,
+        fieldofstudy: req.body.fieldofstudy,
+        from: req.body.from,
+        to: req.body.to,
+        current: req.body.current,
+        description: req.body.description
+      };
+
+      // create education on profile and  move object add to the array
+      profile.education.unshift(educationObj);
+      profile.save().then(profile => res.json(profile));
+    });
+  }
+);
 module.exports = router;

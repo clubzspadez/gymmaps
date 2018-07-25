@@ -197,4 +197,59 @@ Validation.prototype.checkProfileInput = function({
   };
 };
 
+Validation.prototype.checkExperienceInput = function({ title, company, from }) {
+  title = !ifValueEmpty(title) ? title : "";
+  company = !ifValueEmpty(company) ? company : "";
+  from = !ifValueEmpty(from) ? from : "";
+
+  if (validator.isEmpty(title)) {
+    this.errors.title = "Job title field is required";
+  }
+
+  if (validator.isEmpty(company)) {
+    this.errors.company = "Company field is required";
+  }
+
+  if (validator.isEmpty(from)) {
+    this.errors.from = "From date field is required";
+  }
+
+  return {
+    errors: this.errors,
+    isValid: ifValueEmpty(this.errors)
+  };
+};
+
+Validation.prototype.checkEducationInput = function({
+  school,
+  degree,
+  fieldofstudy,
+  from
+}) {
+  school = !ifValueEmpty(school) ? school : "";
+  degree = !ifValueEmpty(degree) ? degree : "";
+  fieldofstudy = !ifValueEmpty(fieldofstudy) ? fieldofstudy : "";
+  from = !ifValueEmpty(from) ? from : "";
+
+  if (Validator.isEmpty(school)) {
+    this.errors.school = "School field is required";
+  }
+
+  if (Validator.isEmpty(degree)) {
+    this.errors.degree = "Degree field is required";
+  }
+
+  if (Validator.isEmpty(fieldofstudy)) {
+    this.errors.fieldofstudy = "Field of study field is required";
+  }
+
+  if (Validator.isEmpty(from)) {
+    this.errors.from = "From date field is required";
+  }
+
+  return {
+    errors: his.errors,
+    isValid: ifValueEmpty(this.errors)
+  };
+};
 module.exports = Validation;
