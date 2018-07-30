@@ -1,7 +1,6 @@
 // ! Dependencies
 const express = require("express");
 const router = express.Router();
-const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const key = require("../../config/keys");
@@ -47,11 +46,7 @@ router.post("/register", (req, res) => {
         //* gravatar.url(email, options) || gravatar.url(email, options, protocol);
         //? for me info @ https://github.com/emerleite/node-gravatar
 
-        const avatar = gravatar.url(req.body.email, {
-          s: "200",
-          r: "pg",
-          d: "mm"
-        });
+
 
         //* generate newUser model object and assign
         //* the data that is being parsed from the body
@@ -59,7 +54,6 @@ router.post("/register", (req, res) => {
         const newUser = new User({
           name: req.body.name,
           email: req.body.email,
-          avatar: avatar,
           password: req.body.password
         });
 
@@ -125,7 +119,7 @@ router.post("/login", (req, res) => {
       //* load hash from your password DB
       if (hash) {
         //* Payload contains user info
-        const payload = { id: user.id, name: user.name, avatar: user.avatar };
+        const payload = { id: user.id, name: user.name};
 
         //! Sign Token
         //* jwt.sign(payload, secretOrPrivateKey, [options, callback])
