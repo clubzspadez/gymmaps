@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import Image from "react-image-resizer";
-
+import { Link } from "react-router-dom";
 class Landing extends Component {
   render() {
     return (
@@ -12,9 +11,9 @@ class Landing extends Component {
               Find gyms near you that fit your style. Pay for what you need, and
               maximize comfort!
             </p>
-            <a href="/register.html" className="btn btn-lg btn-gym mr-2">
+            <Link to="/register" className="btn btn-lg btn-gym mr-2">
               Sign Up
-            </a>
+            </Link>
             <a href="/login.html" className="btn btn-lg btn-secondary">
               Login
             </a>

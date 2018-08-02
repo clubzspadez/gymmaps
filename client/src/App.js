@@ -5,17 +5,22 @@ import Navbar from "./Components/Landing/Navbar";
 import Landing from "./Components/Landing/Landing";
 import "./App.css";
 import Footer from "./Components/Landing/Footer";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Register from "./Components/Auth/Register";
 
 class App extends Component {
   render() {
     return (
-      <body>
-        <div>
-          <Navbar />
-          <Landing />
-          <Footer />
-        </div>
-      </body>
+      <Router>
+        <body>
+          <div>
+            <Navbar />
+            <Route exact path="/" component={Landing} />
+            <Route exact path="/register" component={Register} />
+            <Footer />
+          </div>
+        </body>
+      </Router>
     );
   }
 }

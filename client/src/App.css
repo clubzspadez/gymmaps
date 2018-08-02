@@ -209,3 +209,55 @@ footer {
   text-align: center;
   border-top: black 1px solid;
 }
+
+/* Form Styling */
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  background: white;
+}
+
+hr {
+  border: 1px solid white;
+  margin-bottom: 25px;
+}
+
+button {
+  background-color: dodgerblue;
+  color: white;
+  padding: 14px 20px;
+}
+
+button:hover {
+  opacity: 1;
+}
+
+.cancelbtn {
+  background-color: #f44336;
+}
+
+.cancelbtn,
+.signupbtn {
+  float: left;
+  width: 50%;
+}
+
+.container1 {
+  padding: 16px;
+}
+
+.claerfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+@media screen and (max-width: 300px) {
+  .cancelbtn,
+  .signupbtn {
+    width: 100%;
+  }
+}
