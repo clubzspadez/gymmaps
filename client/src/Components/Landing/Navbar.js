@@ -21,6 +21,9 @@ class Navbar extends Component {
               <li>
                 <a href="services.html"> Services </a>{" "}
               </li>
+              <li>
+                <a href="deals.html"> Deals </a>{" "}
+              </li>
             </ul>
           </nav>
         </div>

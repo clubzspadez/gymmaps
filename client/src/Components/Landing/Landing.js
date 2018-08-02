@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import Image from "react-image-resizer";
 
-import yoga from "../../Images/Yoga.jpg";
-import lift from "../../Images/Lifting.jpg";
-import treadmill from "../../Images/Treadmill.jpg";
 class Landing extends Component {
   render() {
     return (
@@ -15,25 +12,34 @@ class Landing extends Component {
               Find gyms near you that fit your style. Pay for what you need, and
               maximize comfort!
             </p>
+            <a href="/register.html" className="btn btn-lg btn-gym mr-2">
+              Sign Up
+            </a>
+            <a href="/login.html" className="btn btn-lg btn-secondary">
+              Login
+            </a>
           </div>
         </section>
         <section id="boxes">
           <div className="container">
             <div className="box">
-              <img src={yoga} />
+              <div className="image1" />
               <h3>Find Your Perfect Fit</h3>
               <p>
-                GymMaps will narrow down your choices so only the options you
-                need will be offered to you.
+                GymMaps will narrow down your choices so you only get optimized
+                options.
               </p>
             </div>
             <div className="box">
-              <img src={lift} />
+              <div className="image2" />
               <h3>Get Local Deals</h3>
-              <p>Get real time offers on gym deals and promotions.</p>
+              <p>
+                Get real time offers on gym deals and promotions, helping you
+                save big money.
+              </p>
             </div>
             <div className="box">
-              <img src={treadmill} />
+              <div className="image3" />
               <h3>Online Advising</h3>
               <p>
                 Sign up for advising with certified professionals to get your

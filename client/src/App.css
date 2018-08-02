@@ -2,7 +2,7 @@ body {
   font: 15px/1.5 Arial, Helvetica, sans-serif;
   padding: 0;
   margin: 0;
-  background-color: #f4f4f4;
+  background-color: #a3a6a7;
 }
 
 /*Global*/
@@ -12,9 +12,15 @@ body {
   overflow: hidden;
 }
 
-.jumbotron {
-  padding: 0;
-  margin: 0;
+.btn-gym {
+  background: #28839f;
+  color: white;
+  text-decoration: none;
+}
+.btn-gym:hover {
+  color: white;
+  background-color: #2d7085;
+  border-color: #2d7085;
 }
 .button_1 {
   height: 38px;
@@ -30,7 +36,24 @@ ul {
   position: relative;
   top: 22px;
 }
-
+div.image1 {
+  height: 120px;
+  width: 160px;
+  margin: auto;
+  content: url("./Images/Dumbbell.png");
+}
+div.image2 {
+  height: 120px;
+  width: 160px;
+  margin: auto;
+  content: url("./Images/PunchBag.png");
+}
+div.image3 {
+  height: 120px;
+  width: 110px;
+  margin: auto;
+  content: url("./Images/Stopwatch.png");
+}
 .dark {
   padding: 15px;
   background: #35424a;
@@ -93,7 +116,7 @@ header a:hover {
 /* Showcase */
 #showcase {
   min-height: 400px;
-  background: url("./Images/Showcase.jpg") no-repeat 0 -650px;
+  background: url("./Images/Showcase.jpg") no-repeat 0;
   text-align: center;
 }
 
@@ -105,15 +128,15 @@ header a:hover {
 
 #showcase p {
   font-size: 35px;
-  color: black;
-  text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff,
-    1px 1px 0 #ffffff;
+  color: white;
+  /*text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff,
+    1px 1px 0 #ffffff;*/
 }
 
 #showcase h1 {
-  color: black;
-  text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff,
-    1px 1px 0 #ffffff;
+  color: white;
+  /*text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff,
+    1px 1px 0 #ffffff;*/
 }
 
 /*Newsletter*/
@@ -144,16 +167,15 @@ header a:hover {
   margin-top: 20px;
 }
 #boxes .box {
+  border: black 2px solid;
   float: left;
   text-align: center;
   width: 30%;
   padding: 10px;
+  margin-right: 3px;
+  margin-left: 20px;
 }
 
-#boxes .box img {
-  width: 300px;
-  height: 200px;
-}
 /*Side bar*/
 aside#sidebar {
   float: right;
@@ -180,10 +202,10 @@ ul#services li {
   background: #e6e6e6;
 }
 footer {
-  padding: 20px;
-  margin-top: 20px;
+  padding: 10px;
+  margin-top: 30px;
   color: #ffffff;
-  background-color: #e8491d;
+  background-color: #28839f;
   text-align: center;
   border-top: black 1px solid;
 }
