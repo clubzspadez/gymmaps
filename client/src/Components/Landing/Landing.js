@@ -1,56 +1,48 @@
 import React, { Component } from "react";
-import "./Landing.css";
+import Image from "react-image-resizer";
+
 import yoga from "../../Images/Yoga.jpg";
 import lift from "../../Images/Lifting.jpg";
-
-import Image from "react-image-resizer";
+import treadmill from "../../Images/Treadmill.jpg";
 class Landing extends Component {
   render() {
     return (
-      <div className="jumbotron">
-        <h1 className="display-4">GymMaps</h1>
-        <p className="lead">
-          The new way to find a gym that fits your personal style!
-        </p>
-        <hr className="my-4" />
-        <p>Getting Started is easy. Just Sign up below.</p>
-        <p className="lead">
-          <a className="btn btn-primary btn-lg" href="#" role="button">
-            Sign Up
-          </a>
-        </p>
-        <div className="container">
-          <div className="row">
-            <div className="col-sm">
-              <h1>What can GymMaps offer?</h1>
+      <div>
+        <section id="showcase">
+          <div className="container">
+            <h1>GymMaps</h1>
+            <p>
+              Find gyms near you that fit your style. Pay for what you need, and
+              maximize comfort!
+            </p>
+          </div>
+        </section>
+        <section id="boxes">
+          <div className="container">
+            <div className="box">
+              <img src={yoga} />
+              <h3>Find Your Perfect Fit</h3>
+              <p>
+                GymMaps will narrow down your choices so only the options you
+                need will be offered to you.
+              </p>
+            </div>
+            <div className="box">
+              <img src={lift} />
+              <h3>Get Local Deals</h3>
+              <p>Get real time offers on gym deals and promotions.</p>
+            </div>
+            <div className="box">
+              <img src={treadmill} />
+              <h3>Online Advising</h3>
+              <p>
+                Sign up for advising with certified professionals to get your
+                health up to par.
+              </p>
             </div>
           </div>
-          <br />
-          <br />
-          <div className="row">
-            <div className="col-sm">
-              <h1>Personalized Gym Options</h1>
-              <p>
-                Based on criteria you selected, GymMaps will help you locate
-                gyms that suit your needs.
-              </p>
-              <Image src={yoga} height={300} width={350} />
-            </div>
-            <div className="col-sm">
-              <h1>Deals, Offers, and Promos </h1>
-              <p>
-                GymMaps will keep you updated with deals and promos of local
-                gyms.
-              </p>
-              <Image src={lift} height={300} width={350} />
-            </div>{" "}
-            <div className="col-sm">
-              <h1>Real Time Gym Locations</h1>
-            </div>
-          </div>
-        </div>
+        </section>
       </div>
-
       /*<div className="container">
         <div className="row">
           <div className="col-xl-9 mx-auto">

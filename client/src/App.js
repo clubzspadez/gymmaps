@@ -3,14 +3,17 @@ import "./App.css";
 
 import Navbar from "./Components/Landing/Navbar";
 import Landing from "./Components/Landing/Landing";
+import "./App.css";
 
 class App extends Component {
   render() {
     return (
-      <div>
-        <Navbar />
-        <Landing />
-      </div>
+      <body>
+        <div>
+          <Navbar />
+          <Landing />
+        </div>
+      </body>
     );
   }
 }

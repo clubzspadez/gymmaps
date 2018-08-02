@@ -1,29 +1,30 @@
 import React, { Component } from "react";
-import "./Navbar.css";
 class Navbar extends Component {
   render() {
     return (
-      <nav>
-        <ul>
-          <li>
-            <a href="#home">GymMaps</a>
-          </li>
-        </ul>
-        <ul style={{ float: "right" }}>
-          <li>
-            <a href="default.asp">Home</a>
-          </li>
-          <li>
-            <a href="news.asp">Deals</a>
-          </li>
-          <li>
-            <a href="contact.asp">About Gym Maps</a>
-          </li>
-          <li>
-            <a href="about.asp">Contact Us</a>
-          </li>
-        </ul>
-      </nav>
+      <header>
+        <div className="container">
+          <div id="branding">
+            <h1>
+              <span className="highlight">Gym</span>
+              <span className="highlight2">Maps</span>{" "}
+            </h1>
+          </div>
+          <nav>
+            <ul>
+              <li className="current">
+                <a href="index.html"> Home </a>{" "}
+              </li>
+              <li>
+                <a href="about.html"> About </a>{" "}
+              </li>
+              <li>
+                <a href="services.html"> Services </a>{" "}
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </header>
     );
   }
 }
