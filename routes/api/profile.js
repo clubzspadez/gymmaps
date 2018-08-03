@@ -3,6 +3,8 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const validateProfileData = require("../../validation/profile");
+const validateExperienceData = require("../../validation/experience");
+const validateEducationData = require("../../validation/education");
 
 //! client requests https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_Client_errors
 
@@ -196,6 +198,12 @@ router.post(
   "/experience",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const { errors, isValid } = validateExperienceData(req.body);
+
+    //* check if isValid is false
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
     Profile.findOne({ user: req.user.id }).then(profile => {
       // create experience object and necessary fields
       const currentExperience = {
@@ -227,6 +235,12 @@ router.post(
   "/education",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const { errors, isValid } = validateEducationData(req.body);
+
+    //* check if isValid is false
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
     Profile.findOne({ user: req.user.id }).then(profile => {
       // create experience object and necessary fields
       const educationObj = {
@@ -245,4 +259,83 @@ router.post(
     });
   }
 );
+
+// @route   DELETE api/profile/experience/:exp_id
+// @desc    Delete experience from profile
+// @access  Private
+router.delete(
+  "/experience/:exp_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        // use map on experience array to return the array of current items with id's, then find
+        // index of the current params id in that array
+        // store in removeIndex
+        const removeIndex = profile.experience
+          .map(item => item.id)
+          .indexOf(req.params.exp_id);
+
+        // Splice out of array
+        profile.experience.splice(removeIndex, 1);
+
+        // Save
+        profile.save().then(profile => res.json(profile));
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+
+/**
+ * !DELETE api/profile
+ *
+ * * Delete education and profile
+ *
+ * @private
+ */
+
+router.delete(
+  "/education/:edu_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    // find user profile by id
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        // use map on education array to return the array of current items with id's, then find
+        // index of the current params id in that array
+        // store in removeIndex
+        const removeIndex = profile.education
+          .map(item => item.id)
+          .indexOf(req.params.edu_id);
+
+        // Splice out of array
+        profile.education.splice(removeIndex, 1);
+
+        // Save
+        profile.save().then(profile => res.json(profile));
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+
+/**
+ * !DELETE api/profile
+ *
+ * * Delete user and profile
+ *
+ * @private
+ */
+
+router.delete(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOneAndRemove({ user: req.user.id }).then(() => {
+      User.findOneAndRemove({ _id: req.user.id }).then(() =>
+        res.json({ success: true })
+      );
+    });
+  }
+);
+
 module.exports = router;
