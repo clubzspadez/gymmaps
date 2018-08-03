@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./Login.css";
-
-class Register extends Component {
+class Login extends Component {
   render() {
     return (
       <form className="form-signin">
@@ -9,19 +8,8 @@ class Register extends Component {
           <span className="highlight">G</span>
           <span className="highlight2">M</span>{" "}
         </h1>
-        <h1 className="h3 mb-3 font-weight-normal">Sign Up</h1>
-        <label htmlFor="inputEmail" className="sr-only">
-          Full Name
-        </label>
-        <input
-          type="text"
-          id="inputName"
-          className="form-control"
-          placeholder="First and Last Name"
-          required
-          autoFocus
-        />
-        <label htmlFor="inputEmail" className="sr-only">
+        <h1 className="h3 mb-3 font-weight-normal">Please Sign In</h1>
+        <label for="inputEmail" className="sr-only">
           Email address
         </label>
         <input
@@ -30,7 +18,7 @@ class Register extends Component {
           className="form-control"
           placeholder="Email address"
           required
-          autoFocus
+          autofocus
         />
         <label htmlFor="inputPassword" className="sr-only">
           Password
@@ -42,28 +30,17 @@ class Register extends Component {
           placeholder="Password"
           required
         />
-        <label htmlFor="password2" className="sr-only">
-          Re-enter password
-        </label>
-        <input
-          type="password"
-          id="inputPassword2"
-          className="form-control"
-          placeholder="Re-enter Password"
-          required
-        />
         <div className="checkbox mb-3">
           <label>
             <input type="checkbox" value="remember-me" /> Remember me
           </label>
         </div>
         <button className="btn btn-lg btn-gym btn-block" type="submit">
-          Sign Up
+          Sign in
         </button>
         <p className="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
       </form>
     );
   }
 }
-
-export default Register;
+export default Login;

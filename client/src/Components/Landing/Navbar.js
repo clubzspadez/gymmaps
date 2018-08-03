@@ -6,13 +6,16 @@ class Navbar extends Component {
       <header>
         <div className="container">
           <div id="branding">
-            <h1>
-              <span className="highlight">Gym</span>
-              <span className="highlight2">Maps</span>{" "}
-            </h1>
+            <Link to="/">
+              {" "}
+              <h1>
+                <span className="highlight">Gym</span>
+                <span className="highlight2">Maps</span>{" "}
+              </h1>
+            </Link>
           </div>
           <nav>
-            <ul>
+            <ul className="clearer">
               <li className="current">
                 <Link to="/"> Home </Link>{" "}
               </li>
