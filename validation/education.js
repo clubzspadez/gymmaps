@@ -1,7 +1,7 @@
 const Validation = require("./Validation");
 //! Exports
-module.exports = function validateExperienceInput(input) {
+module.exports = function validateEducationInput(input) {
   const validateThisInput = new Validation();
   // returning errors, and isvalid after validating input for
-  return validateThisInput.checkExperienceInput(input);
+  return validateThisInput.checkEducationInput(input);
 };
