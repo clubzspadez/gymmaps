@@ -252,4 +252,17 @@ Validation.prototype.checkEducationInput = function({
     isValid: ifValueEmpty(this.errors)
   };
 };
+
+Validation.prototype.checkPostInput = function({ text }) {
+  text = !ifValueEmpty(text) ? text : "";
+
+  if (Validator.isEmpty(text)) {
+    this.errors.text = "Text field is required";
+  }
+
+  return {
+    errors: his.errors,
+    isValid: ifValueEmpty(this.errors)
+  };
+};
 module.exports = Validation;
