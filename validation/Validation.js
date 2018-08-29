@@ -256,6 +256,10 @@ Validation.prototype.checkEducationInput = function({
 Validation.prototype.checkPostInput = function({ text }) {
   text = !ifValueEmpty(text) ? text : "";
 
+  if (!validator.isLength(text, { min: 10, max: 300 })) {
+    this.errors.name = "Text must be between 10 - 300 characters";
+  }
+
   if (Validator.isEmpty(text)) {
     this.errors.text = "Text field is required";
   }
