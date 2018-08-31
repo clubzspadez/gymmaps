@@ -198,9 +198,9 @@ Validation.prototype.checkProfileInput = function({
 };
 
 Validation.prototype.checkExperienceInput = function({ title, company, from }) {
-  title = !ifValueEmpty(title) ? title : "";
-  company = !ifValueEmpty(company) ? company : "";
-  from = !ifValueEmpty(from) ? from : "";
+  title = !this.ifValueEmpty(title) ? title : "";
+  company = !this.ifValueEmpty(company) ? company : "";
+  from = !this.ifValueEmpty(from) ? from : "";
 
   if (validator.isEmpty(title)) {
     this.errors.title = "Job title field is required";
@@ -216,7 +216,7 @@ Validation.prototype.checkExperienceInput = function({ title, company, from }) {
 
   return {
     errors: this.errors,
-    isValid: ifValueEmpty(this.errors)
+    isValid: this.ifValueEmpty(this.errors)
   };
 };
 
@@ -226,10 +226,10 @@ Validation.prototype.checkEducationInput = function({
   fieldofstudy,
   from
 }) {
-  school = !ifValueEmpty(school) ? school : "";
-  degree = !ifValueEmpty(degree) ? degree : "";
-  fieldofstudy = !ifValueEmpty(fieldofstudy) ? fieldofstudy : "";
-  from = !ifValueEmpty(from) ? from : "";
+  school = !this.ifValueEmpty(school) ? school : "";
+  degree = !this.ifValueEmpty(degree) ? degree : "";
+  fieldofstudy = !this.ifValueEmpty(fieldofstudy) ? fieldofstudy : "";
+  from = !this.ifValueEmpty(from) ? from : "";
 
   if (Validator.isEmpty(school)) {
     this.errors.school = "School field is required";
@@ -249,20 +249,24 @@ Validation.prototype.checkEducationInput = function({
 
   return {
     errors: his.errors,
-    isValid: ifValueEmpty(this.errors)
+    isValid: this.ifValueEmpty(this.errors)
   };
 };
 
 Validation.prototype.checkPostInput = function({ text }) {
-  text = !ifValueEmpty(text) ? text : "";
+  text = !this.ifValueEmpty(text) ? text : "";
 
-  if (Validator.isEmpty(text)) {
+  if (!validator.isLength(text, { min: 10, max: 300 })) {
+    this.errors.text = "Text must be between 10 - 300 characters";
+  }
+
+  if (validator.isEmpty(text)) {
     this.errors.text = "Text field is required";
   }
 
   return {
-    errors: his.errors,
-    isValid: ifValueEmpty(this.errors)
+    errors: this.errors,
+    isValid: this.ifValueEmpty(this.errors)
   };
 };
 module.exports = Validation;
