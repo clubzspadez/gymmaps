@@ -139,4 +139,44 @@ router.post(
       .catch(err => res.status(404).json({ notfound: "Post not found" }));
   }
 );
+
+/**
+ *   POST api/posts/like/:id
+ *
+ * * like post
+ *
+ *
+ * @private
+ */
+
+router.post(
+  "/unlike/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    let currentUser = { user: req.user.id };
+    Post.findById(req.params.id)
+      .then(post => {
+        if (
+          post.likes.filter(like => like.user.toString() === req.user.id)
+            .length === 0
+        ) {
+          return res.status(401).json({ notLiked: "This post was not liked" });
+        }
+
+        // get index of current post
+        let index = post.likes
+          .map(likedPost => likedPost.user.toString())
+          .indexOf(currentUser.user);
+
+        post.likes.splice(index, 1);
+
+        // save to DB
+        post
+          .save()
+          .then(post => res.json(post))
+          .catch(err => res.json({ err: err }));
+      })
+      .catch(err => res.status(404).json({ notfound: "Post not found" }));
+  }
+);
 module.exports = router;
