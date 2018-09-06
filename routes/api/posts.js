@@ -17,8 +17,15 @@ const validatePostData = require("../../validation/post");
 router.get("/", (req, res) => {
   Post.find()
     .sort({ date: -1 })
-    .then(posts => res.json(posts))
-    .catch(res.status(404).json({ invalidPostsRequest: "No Posts Found" }));
+    .then(posts => {
+      if (!posts) {
+        return res.status(404).json({ invalidPostsRequest: "No Posts Found" });
+      }
+      res.json(posts);
+    })
+    .catch(err =>
+      res.status(404).json({ invalidPostsRequest: "No Posts Found" })
+    );
 });
 
 /**
@@ -29,9 +36,11 @@ router.get("/", (req, res) => {
  * @public
  */
 router.get("/:id", (req, res) => {
-  Post.findById(req.param.id)
+  Post.findById(req.params.id)
     .then(post => res.json(post))
-    .catch(res.status(404).json({ invalidPostRequest: "No Post Found" }));
+    .catch(err =>
+      res.status(404).json({ invalidPostRequest: "No Post Found" })
+    );
 });
 
 /**
@@ -56,7 +65,7 @@ router.post(
     }
 
     // schema
-    const newPost = new Post({
+    let newPost = new Post({
       text: req.body.text,
       name: req.body.name,
       avatar: req.body.avatar,
@@ -75,7 +84,7 @@ router.delete(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Profile.findOne({ user: req.user.id }).then(profile => {
-      Post.findById(req.param.id)
+      Post.findById(req.params.id)
         .then(post => {
           if (post.user.toString() !== req.user.id) {
             return res
@@ -93,4 +102,81 @@ router.delete(
   }
 );
 
+/**
+ *   POST api/posts/like/:id
+ *
+ * * like post
+ *
+ *
+ * @private
+ */
+
+router.post(
+  "/like/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    let currentUser = { user: req.user.id };
+    Post.findById(req.params.id)
+      .then(post => {
+        // check to see if there is already a like in the posts.likes object/array
+        if (
+          post.likes.filter(like => like.user.toString() === req.user.id)
+            .length > 0
+        ) {
+          //if there is since array size is bigger than 0 then the post is there already return  error
+          return res.status(401).json({ postLiked: "Post was already liked" });
+        }
+
+        // since there is no like push one to the array
+        post.likes.push(currentUser);
+
+        // save to DB
+        post
+          .save()
+          .then(post => res.json(post))
+          .catch(err => res.json({ err: err }));
+      })
+      .catch(err => res.status(404).json({ notfound: "Post not found" }));
+  }
+);
+
+/**
+ *   POST api/posts/like/:id
+ *
+ * * like post
+ *
+ *
+ * @private
+ */
+
+router.post(
+  "/unlike/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    let currentUser = { user: req.user.id };
+    Post.findById(req.params.id)
+      .then(post => {
+        if (
+          post.likes.filter(like => like.user.toString() === req.user.id)
+            .length === 0
+        ) {
+          return res.status(401).json({ notLiked: "This post was not liked" });
+        }
+
+        // get index of current post
+        let index = post.likes
+          .map(likedPost => likedPost.user.toString())
+          .indexOf(currentUser.user);
+
+        post.likes.splice(index, 1);
+
+        // save to DB
+        post
+          .save()
+          .then(post => res.json(post))
+          .catch(err => res.json({ err: err }));
+      })
+      .catch(err => res.status(404).json({ notfound: "Post not found" }));
+  }
+);
 module.exports = router;
