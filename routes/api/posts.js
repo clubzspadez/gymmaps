@@ -102,4 +102,41 @@ router.delete(
   }
 );
 
+/**
+ *   POST api/posts/like/:id
+ *
+ * * like post
+ *
+ *
+ * @private
+ */
+
+router.post(
+  "/like/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    let currentUser = { user: req.user.id };
+    Post.findById(req.params.id)
+      .then(post => {
+        // check to see if there is already a like in the posts.likes object/array
+        if (
+          post.likes.filter(like => like.user.toString() === req.user.id)
+            .length > 0
+        ) {
+          //if there is since array size is bigger than 0 then the post is there already return  error
+          return res.status(401).json({ postLiked: "Post was already liked" });
+        }
+
+        // since there is no like push one to the array
+        post.likes.push(currentUser);
+
+        // save to DB
+        post
+          .save()
+          .then(post => res.json(post))
+          .catch(err => res.json({ err: err }));
+      })
+      .catch(err => res.status(404).json({ notfound: "Post not found" }));
+  }
+);
 module.exports = router;
