@@ -179,4 +179,36 @@ router.post(
       .catch(err => res.status(404).json({ notfound: "Post not found" }));
   }
 );
+
+router.post(
+  "/comment/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validatePostData(req.body);
+
+    //* check if isValid is false
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
+    let currentUser = { user: req.user.id };
+    Post.findById(req.params.id)
+      .then(post => {
+        const comment = {
+          text: res.body.text,
+          name: res.body.name,
+          ...currentUser
+        };
+
+        post.comments.push(comment);
+
+        // save to DB
+        post
+          .save()
+          .then(post => res.json(post))
+          .catch(err => res.json({ err: err }));
+      })
+      .catch(err => res.status(404).json({ noComment: "Comment not found" }));
+  }
+);
 module.exports = router;
