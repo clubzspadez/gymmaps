@@ -195,20 +195,17 @@ router.post(
     Post.findById(req.params.id)
       .then(post => {
         const comment = {
-          text: res.body.text,
-          name: res.body.name,
-          ...currentUser
+          user: req.user.id,
+          text: req.body.text,
+          name: req.body.name
         };
 
         post.comments.push(comment);
 
         // save to DB
-        post
-          .save()
-          .then(post => res.json(post))
-          .catch(err => res.json({ err: err }));
+        post.save().then(post => res.json(post));
       })
-      .catch(err => res.status(404).json({ noComment: "Comment not found" }));
+      .catch(err => res.status(404).json({ err: err }));
   }
 );
 module.exports = router;
