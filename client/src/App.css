@@ -65,6 +65,7 @@ div.image3 {
 
 /*Header*/
 header {
+  padding-top: 10px;
   background: #28839f;
   margin: auto;
   color: #ffffff;
@@ -125,7 +126,7 @@ header a:hover {
 }
 
 #showcase h1 {
-  margin-top: 100px;
+  padding-top: 15px;
   font-size: 65px;
   margin-bottom: 10px;
 }
