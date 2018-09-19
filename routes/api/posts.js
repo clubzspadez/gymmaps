@@ -180,6 +180,7 @@ router.post(
   }
 );
 
+// create post
 router.post(
   "/comment/:id",
   passport.authenticate("jwt", { session: false }),
@@ -191,7 +192,6 @@ router.post(
       return res.status(400).json(errors);
     }
 
-    let currentUser = { user: req.user.id };
     Post.findById(req.params.id)
       .then(post => {
         const comment = {
@@ -201,6 +201,34 @@ router.post(
         };
 
         post.comments.push(comment);
+
+        // save to DB
+        post.save().then(post => res.json(post));
+      })
+      .catch(err => res.status(404).json({ err: err }));
+  }
+);
+
+// delete post
+// use multiple parameters to specify the id of the post and id of comment
+router.delete(
+  "/comment/:id/:comment_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Post.findById(req.params.id)
+      .then(post => {
+        if (
+          post.comments
+            .map(item => item._id.toString() === req.params.comment_id)
+            .find(item => item === true)
+        ) {
+          const index = post.comments
+            .map(item => item._id.toString())
+            .indexOf(req.params.id);
+          post.comments.splice(index, 1);
+        } else {
+          return res.status(404).json({ status: "Comment does not exit" });
+        }
 
         // save to DB
         post.save().then(post => res.json(post));
