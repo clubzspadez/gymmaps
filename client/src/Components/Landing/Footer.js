@@ -12,7 +12,9 @@ class Footer extends Component {
   render() {
     return (
       <footer>
-        <p>Hoxha and Co, Copyright &copy; {this.state.copyRight}</p>
+        <div>
+          <p>Hoxha and Rodriguez Co, Copyright &copy; {this.state.copyRight}</p>
+        </div>
       </footer>
     );
   }

@@ -10,9 +10,7 @@ class Register extends Component {
           <span className="highlight2">M</span>{" "}
         </h1>
         <h1 className="h3 mb-3 font-weight-normal">Sign Up</h1>
-        <label htmlFor="inputEmail" className="sr-only">
-          Full Name
-        </label>
+        <label htmlFor="inputEmail" className="sr-only" />
         <input
           type="text"
           id="inputName"
@@ -21,9 +19,7 @@ class Register extends Component {
           required
           autoFocus
         />
-        <label htmlFor="inputEmail" className="sr-only">
-          Email address
-        </label>
+        <label htmlFor="inputEmail" className="sr-only" />
         <input
           type="email"
           id="inputEmail"
@@ -32,9 +28,7 @@ class Register extends Component {
           required
           autoFocus
         />
-        <label htmlFor="inputPassword" className="sr-only">
-          Password
-        </label>
+        <label htmlFor="inputPassword" className="sr-only" />
         <input
           type="password"
           id="inputPassword"
@@ -42,9 +36,7 @@ class Register extends Component {
           placeholder="Password"
           required
         />
-        <label htmlFor="password2" className="sr-only">
-          Re-enter password
-        </label>
+        <label htmlFor="password2" className="sr-only" />
         <input
           type="password"
           id="inputPassword2"
@@ -60,7 +52,6 @@ class Register extends Component {
         <button className="btn btn-lg btn-gym btn-block" type="submit">
           Sign Up
         </button>
-        <p className="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
       </form>
     );
   }
