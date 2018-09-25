@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import "./sass/main.scss";
+import "./build/index.css";
 
 import Navbar from "./Components/Landing/Navbar";
 import Landing from "./Components/Landing/Landing";
