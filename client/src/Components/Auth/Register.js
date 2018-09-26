@@ -2,6 +2,16 @@ import React, { Component } from "react";
 import "./Login.css";
 
 class Register extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "",
+      email: "",
+      password: "",
+      password2: "",
+      errors: {}
+    };
+  }
   render() {
     return (
       <form className="form-signin">
