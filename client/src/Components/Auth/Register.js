@@ -50,12 +50,9 @@ class Register extends Component {
         <h1 className="h3 mb-3 font-weight-normal">Sign Up</h1>
         <input
           type="text"
-          className={
-            ("form-control",
-            {
-              "invalid-feedback": errors.name
-            })
-          }
+          className={classnames("form-control", {
+            "invalid-feedback": errors.name
+          })}
           placeholder="First and Last Name"
           name="name"
           value={this.state.name}
@@ -64,12 +61,9 @@ class Register extends Component {
         />
         <input
           type="email"
-          className={
-            ("form-control",
-            {
-              "invalid-feedback": errors.email
-            })
-          }
+          className={classnames("form-control", {
+            "invalid-feedback": errors.email
+          })}
           placeholder="Email address"
           name="email"
           value={this.state.email}
@@ -78,12 +72,9 @@ class Register extends Component {
         />
         <input
           type="password"
-          className={
-            ("form-control",
-            {
-              "invalid-feedback": errors.password
-            })
-          }
+          className={classnames("form-control", {
+            "invalid-feedback": errors.password
+          })}
           placeholder="Password"
           name="password"
           value={this.state.password}
@@ -91,12 +82,9 @@ class Register extends Component {
         />
         <input
           type="password"
-          className={
-            ("form-control",
-            {
-              "invalid-feedback": errors.password2
-            })
-          }
+          className={classnames("form-control", {
+            "invalid-feedback": errors.password2
+          })}
           placeholder="Re-enter Password"
           name="password2"
           value={this.state.password2}
