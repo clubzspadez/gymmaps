@@ -34,62 +34,69 @@ class Register extends Component {
 
     axios
       .post("/api/users/register", userInfo)
-      .then(dataBeingSent => console.log(dataBeingSent))
-      .catch(err => this.setState({ errors: err }));
+      .then(dataBeingSent => console.log(dataBeingSent.data))
+      .catch(err => this.setState({ errors: err.response.data }));
     // axios library makes http requests so we take our current data from the front end and send it to our interface with the created post request on /register
   }
 
   render() {
     const { errors } = this.state;
     return (
-      <form className="form-signin" onSubmit={this.onSubmit}>
-        <h1 className="branding">
-          <span className="highlight">G</span>
-          <span className="highlight2">M</span>
-        </h1>
-        <h1 className="h3 mb-3 font-weight-normal">Sign Up</h1>
-        <input
-          type="text"
-          className={classnames("form-control", {
-            "invalid-feedback": errors.name
-          })}
-          placeholder="First and Last Name"
-          name="name"
-          value={this.state.name}
-          onChange={this.onChange}
-          autoFocus
-        />
-        <input
-          type="email"
-          className={classnames("form-control", {
-            "invalid-feedback": errors.email
-          })}
-          placeholder="Email address"
-          name="email"
-          value={this.state.email}
-          onChange={this.onChange}
-          autoFocus
-        />
+      <form onSubmit={this.onSubmit}>
+        <div className="form-group">
+          <input
+            type="text"
+            className={classnames("form-control", {
+              "is-invalid": errors.name
+            })}
+            placeholder="First and Last Name"
+            name="name"
+            value={this.state.name}
+            onChange={this.onChange}
+          />
+          {errors.name && <div className="invalid-feedback">{errors.name}</div>}
+        </div>
+        <div className="form-group">
+          <input
+            type="email"
+            className={classnames("form-control", {
+              "is-invalid": errors.email
+            })}
+            placeholder="Email address"
+            name="email"
+            value={this.state.email}
+            onChange={this.onChange}
+          />
+          {errors.email && (
+            <div className="invalid-feedback">{errors.email}</div>
+          )}
+        </div>
         <input
           type="password"
           className={classnames("form-control", {
-            "invalid-feedback": errors.password
+            "is-invalid": errors.password
           })}
           placeholder="Password"
           name="password"
           value={this.state.password}
           onChange={this.onChange}
         />
+        {errors.password && (
+          <div className="invalid-feedback">{errors.password}</div>
+        )}
         <input
           type="password"
           className={classnames("form-control", {
-            "invalid-feedback": errors.password2
+            "is-invalid": errors.password2
           })}
           placeholder="Re-enter Password"
           name="password2"
           value={this.state.password2}
           onChange={this.onChange}
         />
+        {errors.password2 && (
+          <div className="invalid-feedback">{errors.password2}</div>
+        )}
         <div className="checkbox mb-3">
           <label>
             <input type="checkbox" value="remember-me" /> Remember me
