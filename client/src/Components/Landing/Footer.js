@@ -11,10 +11,8 @@ class Footer extends Component {
 
   render() {
     return (
-      <footer>
-        <div>
-          <p>Hoxha and Rodriguez Co, Copyright &copy; {this.state.copyRight}</p>
-        </div>
+      <footer className="bg-dark text-white mt-5 p-4 text-center">
+        Copyright &copy; {this.state.copyRight} DevConnector
       </footer>
     );
   }

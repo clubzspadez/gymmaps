@@ -46,7 +46,10 @@ app.use(bodyParser.json());
  */
 
 mongoose
-  .connect(mongoData)
+  .connect(
+    mongoData,
+    { useNewUrlParser: true }
+  )
   .then(() => console.log("DB is connected"))
   .catch(err => console.log(err));
 
