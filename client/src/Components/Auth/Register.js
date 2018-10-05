@@ -30,11 +30,14 @@ class Register extends Component {
       password: this.state.password,
       password2: this.state.password2
     };
-
+    console.log(userInfo);
     axios
       .post("/api/users/register", userInfo)
       .then(dataBeingSent => console.log(dataBeingSent.data))
-      .catch(err => this.setState({ errors: err.response.data }));
+      .catch(err => {
+        console.log(err.response);
+        this.setState({ errors: err.response.data });
+      });
     // axios library makes http requests so we take our current data from the front end and send it to our interface with the created post request on /register
   }
 
