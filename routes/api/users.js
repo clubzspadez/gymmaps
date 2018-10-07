@@ -35,8 +35,8 @@ router.post("/register", (req, res) => {
   // findOne takes an object
   User.findOne({ email: req.body.email })
     .then(user => {
-      errors.email = "Email exists";
       if (user) {
+        errors.email = "Email exists";
         return res.status(400).json(errors);
       } else {
         const rounds = 10;
@@ -45,8 +45,6 @@ router.post("/register", (req, res) => {
         //* both methods take parameters such as
         //* gravatar.url(email, options) || gravatar.url(email, options, protocol);
         //? for me info @ https://github.com/emerleite/node-gravatar
-
-
 
         //* generate newUser model object and assign
         //* the data that is being parsed from the body
@@ -119,7 +117,7 @@ router.post("/login", (req, res) => {
       //* load hash from your password DB
       if (hash) {
         //* Payload contains user info
-        const payload = { id: user.id, name: user.name};
+        const payload = { id: user.id, name: user.name };
 
         //! Sign Token
         //* jwt.sign(payload, secretOrPrivateKey, [options, callback])

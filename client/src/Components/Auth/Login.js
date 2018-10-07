@@ -37,7 +37,6 @@ class Login extends Component {
           placeholder="Email address"
           value={this.onChange}
           required
-          autofocus
         />
 
         <input

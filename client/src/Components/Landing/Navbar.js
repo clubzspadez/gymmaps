@@ -4,34 +4,45 @@ import { Link } from "react-router-dom";
 class Navbar extends Component {
   render() {
     return (
-      <header>
+      <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
         <div className="container">
-          <div id="branding">
-            <Link to="/">
-              <h1>
-                <span className="highlight">Gym</span>
-                <span className="highlight2">Maps</span>{" "}
-              </h1>
-            </Link>
-          </div>
-          <nav>
-            <ul className="clearer">
-              <li className="current">
-                <Link to="/"> Home </Link>
-              </li>
-              <li>
-                <Link to="/about"> About </Link>
-              </li>
-              <li>
-                <Link to="/services"> Services </Link>
-              </li>
-              <li>
-                <Link to="/deals"> Deals </Link>
+          <Link className="navbar-brand" to="/">
+            DevConnector
+          </Link>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#mobile-nav"
+          >
+            <span className="navbar-toggler-icon" />
+          </button>
+
+          <div className="collapse navbar-collapse" id="mobile-nav">
+            <ul className="navbar-nav mr-auto">
+              <li className="nav-item">
+                <Link className="nav-link" to="/profiles">
+                  {" "}
+                  Developers
+                </Link>
               </li>
             </ul>
-          </nav>
+
+            <ul className="navbar-nav ml-auto">
+              <li className="nav-item">
+                <Link className="nav-link" to="/register">
+                  Sign Up
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/login">
+                  Login
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
-      </header>
+      </nav>
     );
   }
 }
