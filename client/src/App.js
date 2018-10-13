@@ -5,7 +5,7 @@ import "./build/index.css";
 import Navbar from "./Components/Landing/Navbar";
 import Landing from "./Components/Landing/Landing";
 import Footer from "./Components/Landing/Footer";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Register from "./Components/Auth/Register";
 import Login from "./Components/Auth/Login";
 import About from "./Components/About";
