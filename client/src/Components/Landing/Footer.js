@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { get } from "http";
 
 class Footer extends Component {
   constructor(props) {

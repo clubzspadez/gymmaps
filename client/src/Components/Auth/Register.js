@@ -1,11 +1,14 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import axios from "axios";
 // A simple JavaScript utility for conditionally joining classNames together.
 import classnames from "classnames";
+import { connect } from "react-redux";
+import { regUser } from "../../actions/authUser";
 
 class Register extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
@@ -31,13 +34,14 @@ class Register extends Component {
       password2: this.state.password2
     };
     console.log(userInfo);
-    axios
-      .post("/api/users/register", userInfo)
-      .then(dataBeingSent => console.log(dataBeingSent.data))
-      .catch(err => {
-        console.log(err.response);
-        this.setState({ errors: err.response.data });
-      });
+    this.props.regUser(userInfo);
+    // axios
+    //   .post("/api/users/register", userInfo)
+    //   .then(dataBeingSent => console.log(dataBeingSent.data))
+    //   .catch(err => {
+    //     console.log(err.response);
+    //     this.setState({ errors: err.response.data });
+    // });
     // axios library makes http requests so we take our current data from the front end and send it to our interface with the created post request on /register
   }
 
@@ -123,4 +127,16 @@ class Register extends Component {
   }
 }
 
-export default Register;
+const mapStateToProps = state => {
+  auth: state.auth;
+};
+
+Register.propTypes = {
+  regUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
+
+export default connect(
+  mapStateToProps,
+  { regUser }
+)(Register);
