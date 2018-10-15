@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import axios from "axios";
 // A simple JavaScript utility for conditionally joining classNames together.
 import classnames from "classnames";
@@ -126,7 +127,16 @@ class Register extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  auth: state.auth;
+};
+
+Register.propTypes = {
+  regUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   { regUser }
 )(Register);
